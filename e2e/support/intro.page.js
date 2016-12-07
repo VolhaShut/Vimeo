@@ -8,8 +8,8 @@ class Intro{
         };
         this.menuBar=element(by.css('.topnav_menu_desktop_main'));
         this.joinButton=this.menuBar.$$('.topnav_menu_join.js-topnav_menu_auth').first();
-
         this.loginButton=this.menuBar.$('.topnav_desktop_menu_items:nth-child(2)');
+        this.waitForJoin=element(by.id('compare_grid'));
     }
 }
 module.exports=Intro;
