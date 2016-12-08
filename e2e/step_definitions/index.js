@@ -4,78 +4,51 @@
 'use strict';
 const expect=require('chai').expect;
 const world = require('../support/world');
+const parseValue=require('./support/parse.const');
 
 module.exports = function () {
-
-
-    this.Given(/^I am on Home page$/, () => {
-        return world.homePage.openPage();
-    });
 
     this.Given(/^I am on Intro page$/, () => {
         return world.introPage.openPage();
     });
 
-    this.Then(/^I click "(.*)" button$/, (name) => {
+    this.Then(/^I click Join button$/, () => {
         return world.introPage.joinButton.click();
     });
 
-    this.Then(/^"(.*)" form should be visible$/, (name) => {
+    this.Then(/^Join form should be visible$/, () => {
         return browser.wait(EC.visibilityOf(world.joinForm.joinForm), ECTimeout);
     });
 
-    this.Then(/^I enter first and last name$/, () => {
-        return world.joinForm.flName.sendKeys('John John');
+    this.Then(/^I enter "(.*)" to input$/, (key) => {
+        let flName=parseValue.parseConst(key);
+        return world.joinForm.flName.sendKeys(flName);
     });
-    this.Then(/^I enter email address$/, () => {
-        return world.joinForm.email.sendKeys('testingcucumber@gmail.com');
+    this.Then(/^I enter "(.*)" address$/, (key) => {
+        let now = new Date();
+        return world.joinForm.email.sendKeys('test'+now.getTime()+'@gmail.com');
     });
-    this.Then(/^I enter password$/, () => {
-        return world.joinForm.password.sendKeys('12345qwerty');
+    this.Then(/^I enter "(.*)"$/, (key) => {
+        let password=parseValue.parseConst(key);
+        return world.joinForm.password.sendKeys(password);
     });
     this.Then(/^I click Join with email button/, () => {
-        world.joinForm.joinButton.click();
-        return browser.sleep(3000);
+        return world.joinForm.joinButton.click();
     });
 
-    this.Then(/^'(.*)' should be visible$/, (elem) => {
-        let elm=world.homePage.allElements;
-        let found;
-       for (let key in elm){
-            if (key==elem){
-                found=elm[key];
-            }
-       };
-        return found.isPresent().then((isPresent) => {
-            return expect(isPresent).to.equal(true);
-        });
+    this.Then(/^I click Download button$/, () => {
+        return world.homePage.downloadButton.click();
     });
 
-    this.Then(/^I scroll down '(.*)' time\(s\)$/, (time) => {
-        let counter=600*time;
-         browser.executeScript('window.scrollBy(0,'+counter+')');
-        browser.executeScript('return window.innerHeight').then((num)=>{
-            console.log(num);
-        });
-        browser.executeScript("return document.querySelector('.phone_picture.animated').getBoundingClientRect()").then((size)=>{
-            console.log(size);
-        });
-        return browser.sleep(3000);
-    });
-
-    this.Then(/^'(.*)' should be invisible$/, (elem) => {
-        let elm=world.homePage.allElements;
-        let found;
-        for (let key in elm){
-            if (key==elem){
-                found=elm[key];
-            }
-        };
-
-        console.log(m);
-        return found.isEnabled().then((isPresent) => {
-            return expect(isPresent).to.equal(false);
+    this.Then(/^Page title should be "(.*)"$/, (key) => {
+       let title=parseValue.parseConst(key);
+       return browser.getTitle().then((text)=>{
+           return expect(text).to.equal(title);
         });
     });
+    this.Then(/^I wait until page gives me access$/, () => {
+        return browser.wait(EC.visibilityOf(world.introPage.waitForJoin),ECTimeout);
+    });
+
 
 };
