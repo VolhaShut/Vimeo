@@ -29,4 +29,8 @@ module.exports = function () {
             return expect(result).to.equal(false);
         });
     });
+
+    this.Then(/^I scroll up$/, () => {
+        return browser.executeScript('window.scrollTo(0,0)');
+    });
 };

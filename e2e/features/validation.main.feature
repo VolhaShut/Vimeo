@@ -15,16 +15,16 @@ Feature: Scroling page
     Examples:
     |screen             |count|
     |desktop            |5.5 |
-    |phonePicture       |1  |
-    |sliding            |0.5  |
+    |phonePicture       |1.5  |
+    |sliding            |0.8  |
     |video_ctrl         |1.5|
     |features           |3  |
     |video              |4    |
     |soundtracks        |4  |
-    |videolist          |4    |
-    |creators           |4  |
+    |videolist          |5    |
+    |creators           |5  |
 
   @role(logout)
   Scenario: Return to Home page
-      Given I am on Home page
+      Given I scroll up
 
